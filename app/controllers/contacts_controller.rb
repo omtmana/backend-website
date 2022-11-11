@@ -5,8 +5,12 @@ class ContactsController < ApplicationController
    end
 
    def create
-      contact = Contact.create(contact_params)
-      render json: contact, status: :created
+      contact = Contact.create!(contact_params)
+      if contact.valid?
+         render json: contact, status: :created
+      else
+         render json: {error: 'not valid'}, status: 404
+      end
    end
 
    private
